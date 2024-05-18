@@ -1,15 +1,16 @@
-import Image from "next/image";
-import Form from "../../components/form.js"
-
+import Head from 'next/head';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Form />
-    </main>
+    <div className="flex min-h-screen justify-center items-center">
+      <Head>
+        <title>Dream Job</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <h1 className="text-4xl font-bold text-center text-blue-600 animate-fadeInDown">
+        Do you want to land your dream job?
+      </h1>
+    </div>
   );
 }
-
-
-
-
