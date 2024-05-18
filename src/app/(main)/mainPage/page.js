@@ -12,19 +12,13 @@ import Image from 'next/image';
 
 export default function MainPage() {
   const [isRecording, setRecording] = useState(false);
-  const [qindex, setQindex] = useState(0);
   const router = useRouter();
   const searchParams = useSearchParams();
   var questions = searchParams.get("questions").slice(1,length-1).split("\\n");
 
-  function endRecording(responses) {
-    console.log(responses);
-    setQindex(qindex+1);
-    if (qindex >= 2) {
-      console.log("done");
-      // route to feedback page
-      router.push(`/FeedbackPage?responses${JSON.stringify(responses)}`);
-    }
+  function endRecording(text) {
+    console.log("done");
+    // route to feedback page
   }
   return (
     <div className="w-full h-screen overflow-hidden">
@@ -40,7 +34,7 @@ export default function MainPage() {
         </NavigationMenuItem>
       </NavigationMenu>
       <main className="w-full h-full flex flex-col items-center bg-gray-100">
-        <p className='m-4'>{questions[qindex]}</p>
+        <p className='m-4'>{questions[0]}</p>
         <Camera isRecording={isRecording}/>
         <AudioRecorder setTimerOn={setRecording} endRecording={endRecording}/>
       </main>

@@ -2,9 +2,11 @@
 import { useEffect, useState, useRef } from "react";
 import { blobToBase64 } from "@/utils/blobToBase64";
 import { createMediaStream } from "@/utils/createMediaStream";
+import { useRouter } from "next/navigation";
 
 export const useRecordVoice = () => {
-  const [responses, setResponses] = useState([]);
+  const router = useRouter();
+  const [text, setText] = useState("");
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
   const isRecording = useRef(false);
@@ -36,9 +38,7 @@ export const useRecordVoice = () => {
         body: JSON.stringify({
           audio: base64data,
         }),
-      }).then((res) => res.json());
-      const { text } = response;
-      setResponses([...responses, text]);
+      }).then((res) => res.json()).then((res => router.push(`/FeedbackPage?response=${res.text}`)));
     } catch (error) {
       console.log(error);
     }
@@ -72,5 +72,5 @@ export const useRecordVoice = () => {
     }
   }, []);
 
-  return { recording, startRecording, stopRecording, responses };
+  return { recording, startRecording, stopRecording, text };
 };

@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 
 
 const AudioRecorder = ({ setTimerOn, endRecording }) => {
-  const { startRecording, stopRecording, text, responses } = useRecordVoice();
+  const { startRecording, stopRecording, text } = useRecordVoice();
   const [isRecording, setIsRecording] = useState(false);
 
   const startRecordingLocal = async () => {
@@ -19,7 +19,7 @@ const AudioRecorder = ({ setTimerOn, endRecording }) => {
     stopRecording();
     setIsRecording(false);
     setTimerOn(false);
-    endRecording(responses);
+    endRecording(text);
   };
 
   return (
