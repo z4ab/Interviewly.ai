@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import Link from 'next/link';
 
 export default function Home() {
+  const linkclasses = `mt-32 text-xl pl-12 pr-12 bg-teal-500 block mx-auto align-text-top ${buttonVariants({ variant: "secondary" })}`;
   return (
       <div className="h-screen bg-no-repeat bg-[url('/tech-bg.jpg')]">
         <div className="flex h-screen width-screen flex-col items-center p-8 bg-black/60">
@@ -12,7 +16,11 @@ export default function Home() {
             <li> Get personalized interview tips and a score </li>
             <li> Login and track your progress to take your interviewing skills to the next level</li>
           </ul>
-          <Button className="mt-32 text-xl pl-12 pr-12 bg-teal-500 block mx-auto align-text-top">Get started</Button>
+          <Link 
+            href="/mainPage"
+            className={linkclasses}>
+            Get started
+          </Link>
         </div>
       </div>
   );
