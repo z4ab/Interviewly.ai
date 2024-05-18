@@ -4,11 +4,11 @@ import OpenAI from "openai";
 
 export async function getQuestions(formData){
     console.log(formData);
-    const openai = new OpenAI( { apiKey: "" } );
+    const openai = new OpenAI( { apiKey: "sk-proj-kGxShcGf5Jyhpk15bkSOT3BlbkFJXHQstqJzcPgmZ0fK1t5s" } );
     const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "Make 3 interview questions by focusing on the technical aspect of what's required from the following. Make the questions so that they can be answered in just audio form:" + formData }],
+    messages: [{ role: "system", content: "Make 3 interview questions by focusing on the technical aspect of what's required from the following. Make the questions so that they can be answered in just audio form.:" + formData }],
     model: "gpt-3.5-turbo-16k",
   });
     console.log(completion.choices[0]);
-    return completion.choices[0];
+    return completion.choices[0]['message']['content'];
 }

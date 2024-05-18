@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react';
 import { getQuestions } from "@/app/getInterviewQns"
+import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/navigation';
 
 
 const MyForm = () => {
@@ -13,6 +15,8 @@ const MyForm = () => {
 
 
   const [status, setStatus] = useState(null);
+
+  const router = useRouter();
 
 
   const handleChange = (e) => {
@@ -27,7 +31,8 @@ const MyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
-    setQuestions(getQuestions(JSON.stringify(formData)))
+    let questions = await getQuestions(JSON.stringify(formData));
+    router.push(`/mainPage?questions=${JSON.stringify(questions)}`);
   };
 
 

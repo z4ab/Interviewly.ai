@@ -7,9 +7,26 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
 import AudioRecorder from '@/components/AudioRecorder';
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function MainPage() {
   const [isRecording, setRecording] = useState(false);
+  const [qindex, setQindex] = useState(0);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  var questions = searchParams.get("questions").slice(1,length-1).split("\\n");
+
+  function startRecording(val) {
+    setRecording(val);
+    if (!val) {
+      setQindex(qindex+1);
+      if (qindex >= 2) {
+        console.log("done");
+        // route to feedback page
+        router.push("/feedback");
+      }
+    }
+  }
   return (
     <div className="w-full h-screen overflow-hidden">
       <Head>
@@ -25,9 +42,10 @@ export default function MainPage() {
           <p className="mt-2">Ready to ace your interview?</p>
         </NavigationMenuItem>
       </NavigationMenu>
-      <main className="w-full h-full flex flex-col items-center justify-center bg-gray-100">
+      <main className="w-full h-full flex flex-col items-center bg-gray-100">
+        <p className='m-4'>{questions[qindex]}</p>
         <Camera isRecording={isRecording}/>
-        <AudioRecorder setTimerOn={setRecording}/>
+        <AudioRecorder setTimerOn={startRecording}/>
       </main>
     </div>
   );
