@@ -1,5 +1,3 @@
-AudioRecorder.js
-
 
 import { transcribeAudio } from '@/app/transcribeAudio';
 import { useState, useEffect, useRef } from 'react';
