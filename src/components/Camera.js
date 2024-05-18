@@ -33,8 +33,8 @@ const Camera = ({isRecording}) => {
   }, []);
 
   return (
-    <div className="relative w-full h-4/5">
-      <video ref={videoRef} autoPlay className="w-full h-full object-cover" />
+    <div className="relative py-4 w-full h-4/5">
+      <video ref={videoRef} autoPlay className="w-full h-full object-cover rounded-lg" />
       <Timer start={isRecording} />
     </div>
   );

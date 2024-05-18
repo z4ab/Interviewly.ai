@@ -14,6 +14,7 @@ export default function MainPage() {
   const [isRecording, setRecording] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  
   var questions = searchParams.get("questions").slice(1,length-1).split("\\n");
 
   function endRecording(text) {
@@ -21,7 +22,7 @@ export default function MainPage() {
     // route to feedback page
   }
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-screen overflow-hidden ">
       <Head>
         <title>Camera and Audio Access Example</title>
       </Head>
@@ -30,11 +31,11 @@ export default function MainPage() {
             <Link href="/">
               <Image src='/sidelogo.png' width={200} height={100} /> 
             </Link>
-            <p className="mt-2">Ready to ace your interview?</p>
+            <p className="mt-1 font-bold">Ready to ace your interview?</p>
         </NavigationMenuItem>
       </NavigationMenu>
-      <main className="w-full h-full flex flex-col items-center bg-gray-100">
-        <p className='m-4'>{questions[0]}</p>
+      <main className="flex flex-col items-center w-full h-full scale-90">
+        <p className='m-2 font-semibold'>{questions[0]}</p>
         <Camera isRecording={isRecording}/>
         <AudioRecorder setTimerOn={setRecording} endRecording={endRecording}/>
       </main>

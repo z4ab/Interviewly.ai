@@ -26,7 +26,7 @@ const AudioRecorder = ({ setTimerOn, endRecording }) => {
     <div className="audio-recorder">
       <button
         onClick={isRecording ? stopRecordingLocal : startRecordingLocal}
-        className={`px-4 py-2 rounded ${isRecording ? 'bg-red-500' : 'bg-green-500'} text-white`}
+        className={`px-10 py-4 rounded ${isRecording ? 'bg-red-500' : 'bg-teal-500'} text-white`}
       >
         {isRecording ? 'Stop Recording' : 'Start Recording'}
       </button>
