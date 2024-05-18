@@ -1,58 +1,65 @@
+"use client";
 import { useEffect, useState, useRef } from "react";
+import { blobToBase64 } from "@/utils/blobToBase64";
+import { createMediaStream } from "@/utils/createMediaStream";
 
 export const useRecordVoice = () => {
-  // State to hold the media recorder instance
+  const [responses, setResponses] = useState([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-
-  // State to track whether recording is currently in progress
   const [recording, setRecording] = useState(false);
-
-  // Ref to store audio chunks during recording
+  const isRecording = useRef(false);
   const chunks = useRef([]);
 
-  // Function to start the recording
   const startRecording = () => {
     if (mediaRecorder) {
+      isRecording.current = true;
       mediaRecorder.start();
       setRecording(true);
     }
   };
 
-  // Function to stop the recording
   const stopRecording = () => {
     if (mediaRecorder) {
-      mediaRecorder.stop(); 
+      isRecording.current = false;
+      mediaRecorder.stop();
       setRecording(false);
     }
   };
 
-  // Function to initialize the media recorder with the provided stream
+  const getText = async (base64data) => {
+    try {
+      const response = await fetch("/api/speechToText", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          audio: base64data,
+        }),
+      }).then((res) => res.json());
+      const { text } = response;
+      setResponses([...responses, text]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const initialMediaRecorder = (stream) => {
     const mediaRecorder = new MediaRecorder(stream);
 
-    // Event handler when recording starts
     mediaRecorder.onstart = () => {
-      chunks.current = []; // Resetting chunks array
+      createMediaStream(stream)
+      chunks.current = [];
     };
 
-    // Event handler when data becomes available during recording
     mediaRecorder.ondataavailable = (ev) => {
-      chunks.current.push(ev.data); // Storing data chunks
+      chunks.current.push(ev.data);
     };
 
-    // Event handler when recording stops
     mediaRecorder.onstop = () => {
-      // Creating a blob from accumulated audio chunks with WAV format
       const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
-      console.log(audioBlob, 'audioBlob')
-
-      // You can do something with the audioBlob, like sending it to a server or processing it further
-      sendToServer(audioBlob);
+      blobToBase64(audioBlob, getText);
     };
-
-    const sendToServer = (audioBlob) => {
-      
-    }
 
     setMediaRecorder(mediaRecorder);
   };
@@ -63,7 +70,7 @@ export const useRecordVoice = () => {
         .getUserMedia({ audio: true })
         .then(initialMediaRecorder);
     }
-  }, []); 
+  }, []);
 
-  return { recording, startRecording, stopRecording };
+  return { recording, startRecording, stopRecording, responses };
 };

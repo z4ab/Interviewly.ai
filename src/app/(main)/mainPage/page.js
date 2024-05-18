@@ -17,15 +17,13 @@ export default function MainPage() {
   const searchParams = useSearchParams();
   var questions = searchParams.get("questions").slice(1,length-1).split("\\n");
 
-  function startRecording(val) {
-    setRecording(val);
-    if (!val) {
-      setQindex(qindex+1);
-      if (qindex >= 2) {
-        console.log("done");
-        // route to feedback page
-        router.push("/FeedbackPage");
-      }
+  function endRecording(responses) {
+    console.log(responses);
+    setQindex(qindex+1);
+    if (qindex >= 2) {
+      console.log("done");
+      // route to feedback page
+      router.push(`/FeedbackPage?responses${JSON.stringify(responses)}`);
     }
   }
   return (
@@ -44,7 +42,7 @@ export default function MainPage() {
       <main className="w-full h-full flex flex-col items-center bg-gray-100">
         <p className='m-4'>{questions[qindex]}</p>
         <Camera isRecording={isRecording}/>
-        <AudioRecorder setTimerOn={startRecording}/>
+        <AudioRecorder setTimerOn={setRecording} endRecording={endRecording}/>
       </main>
     </div>
   );
