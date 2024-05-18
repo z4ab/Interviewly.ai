@@ -1,16 +1,18 @@
-import Head from 'next/head';
+// app/formPage.page.js
+import MyForm from "@/components/form";
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen justify-center items-center">
-      <Head>
-        <title>Dream Job</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default function FormPage() {
+    return (
+        <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-blue-900 to-teal-600">
+            <h1 className="text-3xl font-bold typewriter text-white">
+                Do you want to land your dream job?
+                
+            </h1>
+            
 
-      <h1 className="text-4xl font-bold text-center text-blue-600 animate-fadeInDown">
-        Do you want to land your dream job?
-      </h1>
-    </div>
-  );
+            <div className="w-full max-w-md mt-8">
+                <MyForm />
+            </div>
+        </div>
+    );
 }
