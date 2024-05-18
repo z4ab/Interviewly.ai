@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import Timer from './TImer';
 
-const Camera = () => {
+const Camera = ({isRecording}) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Camera = () => {
   return (
     <div className="relative w-full h-4/5">
       <video ref={videoRef} autoPlay className="w-full h-full object-cover" />
-      <Timer start={true} />
+      <Timer start={isRecording} />
     </div>
   );
 };

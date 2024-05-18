@@ -6,8 +6,10 @@ import Camera from '../../../components/Camera';
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
 import AudioRecorder from '@/components/AudioRecorder';
+import { useState } from 'react';
 
 export default function MainPage() {
+  const [isRecording, setRecording] = useState(false);
   return (
     <div className="w-full h-screen overflow-hidden">
       <Head>
@@ -24,8 +26,8 @@ export default function MainPage() {
         </NavigationMenuItem>
       </NavigationMenu>
       <main className="w-full h-full flex flex-col items-center justify-center bg-gray-100">
-        <Camera />
-        <AudioRecorder/>
+        <Camera isRecording={isRecording}/>
+        <AudioRecorder setTimerOn={setRecording}/>
       </main>
     </div>
   );

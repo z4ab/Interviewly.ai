@@ -1,7 +1,7 @@
 // components/AudioRecorder.js
 import { useState, useEffect, useRef } from 'react';
 
-const AudioRecorder = () => {
+const AudioRecorder = ({setTimerOn}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioChunks, setAudioChunks] = useState([]);
   const [timer, setTimer] = useState(0);
@@ -30,7 +30,9 @@ const AudioRecorder = () => {
     setAudioChunks([]);
     setIsRecording(true);
     mediaRecorder.start();
-    startTimer();
+    //startTimer();
+    setTimerOn(true);
+    console.log(1);
   };
 
   const stopRecording = () => {
@@ -39,6 +41,7 @@ const AudioRecorder = () => {
     }
     setIsRecording(false);
     stopTimer();
+    setTimerOn(false);
   };
 
   const uploadAudioBlob = async (blob) => {
@@ -72,7 +75,6 @@ const AudioRecorder = () => {
       >
         {isRecording ? 'Stop Recording' : 'Start Recording'}
       </button>
-      <p className="mt-2">Timer: {timer}s</p>
     </div>
   );
 };
