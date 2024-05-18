@@ -1,20 +1,28 @@
-// components/AudioRecorder.js
+AudioRecorder.js
+
+
+import { transcribeAudio } from '@/app/transcribeAudio';
 import { useState, useEffect, useRef } from 'react';
 
-const AudioRecorder = ({setTimerOn}) => {
+
+const AudioRecorder = ({ setTimerOn }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioChunks, setAudioChunks] = useState([]);
-  const [timer, setTimer] = useState(0);
   const mediaRecorderRef = useRef(null); // Use ref to keep track of mediaRecorder instance
   const timerRef = useRef(null); // Use ref to keep track of timer
+
 
   useEffect(() => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          setAudioChunks((prev) => [...prev, event.data]);
+          setAudioChunks((prev) => {
+            const newChunks = [...prev, event.data];
+            return newChunks;
+          });
         }
       };
+
 
       mediaRecorderRef.current.onstop = () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
@@ -23,6 +31,7 @@ const AudioRecorder = ({setTimerOn}) => {
     }
   }, [audioChunks]);
 
+
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
@@ -30,42 +39,28 @@ const AudioRecorder = ({setTimerOn}) => {
     setAudioChunks([]);
     setIsRecording(true);
     mediaRecorder.start();
-    //startTimer();
     setTimerOn(true);
-    console.log(1);
   };
+
 
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
     setIsRecording(false);
-    stopTimer();
     setTimerOn(false);
   };
+
 
   const uploadAudioBlob = async (blob) => {
     const formData = new FormData();
     formData.append('file', blob, 'recording.webm');
-
-    await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-  };
-
-  const startTimer = () => {
-    setTimer(0);
-    timerRef.current = setInterval(() => {
-      setTimer((prev) => prev + 1);
-    }, 1000);
-  };
-
-  const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
+    if (formData.get('file').size !== 0){
+      console.log(formData.get('file').size);
     }
+    await transcribeAudio(formData);
   };
+
 
   return (
     <div className="audio-recorder">
@@ -79,4 +74,6 @@ const AudioRecorder = ({setTimerOn}) => {
   );
 };
 
+
 export default AudioRecorder;
+
