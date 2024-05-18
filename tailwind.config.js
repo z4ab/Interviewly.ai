@@ -8,6 +8,9 @@ module.exports = {
     './src/**/*.{js,jsx}',
   ],
   prefix: "",
+  fontFamily: {
+    'home': [""]
+  },
   theme: {
     container: {
       center: true,
