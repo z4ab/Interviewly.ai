@@ -8,6 +8,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from '@radix-u
 import AudioRecorder from '@/components/AudioRecorder';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 export default function MainPage() {
   const [isRecording, setRecording] = useState(false);
@@ -23,7 +24,7 @@ export default function MainPage() {
       if (qindex >= 2) {
         console.log("done");
         // route to feedback page
-        router.push("/feedback");
+        router.push("/FeedbackPage");
       }
     }
   }
@@ -32,14 +33,12 @@ export default function MainPage() {
       <Head>
         <title>Camera and Audio Access Example</title>
       </Head>
-      <NavigationMenu className="flex justify-center items-center">
-        <NavigationMenuItem className="text-center">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Main Page
-            </NavigationMenuLink>
-          </Link>
-          <p className="mt-2">Ready to ace your interview?</p>
+      <NavigationMenu className="flex justify-center items-center list-none">
+          <NavigationMenuItem className="text-center">
+            <Link href="/">
+              <Image src='/sidelogo.png' width={200} height={100} /> 
+            </Link>
+            <p className="mt-2">Ready to ace your interview?</p>
         </NavigationMenuItem>
       </NavigationMenu>
       <main className="w-full h-full flex flex-col items-center bg-gray-100">
