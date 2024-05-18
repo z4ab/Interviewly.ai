@@ -2,10 +2,10 @@
 
 import Head from 'next/head';
 import Link from 'next/link';
-import Camera from '../../../../components/Camera';
+import Camera from '../../../components/Camera';
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
-import AudioRecorder from '../../../../components/AudioRecorder';
+import AudioRecorder from '@/components/AudioRecorder';
 
 export default function MainPage() {
   return (
