@@ -17,7 +17,7 @@ export default function Home() {
             <li> Login and track your progress to take your interviewing skills to the next level</li>
           </ul>
           <Link 
-            href="/mainPage"
+            href="/formPage"
             className={linkclasses}>
             Get started
           </Link>
