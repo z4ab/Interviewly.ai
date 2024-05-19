@@ -4,7 +4,7 @@ import Feedback from "@/components/Feedback";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from "next/link";
-import Image from "next/image";
+import Image   from "next/image";
 
 export default function FeedbackPage() {
   const searchParams = useSearchParams();
