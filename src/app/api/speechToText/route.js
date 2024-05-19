@@ -3,7 +3,7 @@ import fs from "fs";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-	apiKey: ,
+	apiKey: "" ,
 });
 
 export async function POST(req) {

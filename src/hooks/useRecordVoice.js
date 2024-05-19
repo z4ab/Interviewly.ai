@@ -3,8 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import { blobToBase64 } from "@/utils/blobToBase64";
 import { createMediaStream } from "@/utils/createMediaStream";
 import { useRouter } from "next/navigation";
+import { getFeedback } from "@/app/getFeedback";
 
-export const useRecordVoice = () => {
+export const useRecordVoice = (questions) => {
   const router = useRouter();
   const [text, setText] = useState("");
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -29,20 +30,34 @@ export const useRecordVoice = () => {
   };
 
   const getText = async (base64data) => {
-    try {
-      const response = await fetch("/api/speechToText", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          audio: base64data,
-        }),
-      }).then((res) => res.json()).then((res => router.push(`/FeedbackPage?response=${res.text}`)));
-    } catch (error) {
-      console.log(error);
-    }
+    fetch("/api/speechToText", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        audio: base64data,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch the text from audio.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Speech-to-text response:", data.text);
+        return getFeedback(data.text, questions);
+      })
+      .then((feedback) => {
+        console.log("Feedback:", feedback);
+        router.push(`/FeedbackPage?response=${feedback}&questions=${questions}`);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
+
 
   const initialMediaRecorder = (stream) => {
     const mediaRecorder = new MediaRecorder(stream);

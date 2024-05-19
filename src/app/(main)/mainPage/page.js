@@ -15,7 +15,7 @@ export default function MainPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  var questions = searchParams.get("questions").slice(1,length-1).split("\\n");
+  var questions = searchParams.get("questions").slice(0,searchParams.get("questions").length-1).split("\\n");
 
   function endRecording(text) {
     console.log("done");
@@ -37,7 +37,7 @@ export default function MainPage() {
       <main className="flex flex-col items-center w-full h-full scale-90">
         <p className='m-2 font-semibold'>{questions[0]}</p>
         <Camera isRecording={isRecording}/>
-        <AudioRecorder setTimerOn={setRecording} endRecording={endRecording}/>
+        <AudioRecorder setTimerOn={setRecording} endRecording={endRecording} questions = {questions}/>
       </main>
     </div>
   );
