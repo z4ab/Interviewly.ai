@@ -4,8 +4,8 @@ import { useRecordVoice } from "@/hooks/useRecordVoice";
 import { useState, useEffect, useRef } from 'react';
 
 
-const AudioRecorder = ({ setTimerOn, endRecording }) => {
-  const { startRecording, stopRecording, text } = useRecordVoice();
+const AudioRecorder = ({ setTimerOn, endRecording, questions }) => {
+  const {startRecording, stopRecording, text } = useRecordVoice(questions);
   const [isRecording, setIsRecording] = useState(false);
 
   const startRecordingLocal = async () => {
