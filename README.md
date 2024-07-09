@@ -1,6 +1,6 @@
 # Interviewly.ai
 
-Interviewly.ai uses OpenAI to help you practice your interviewing skills. 
+Interviewly.ai uses OpenAI to help you practice your interviewing skills. Generate relevant questions based on your desired job and recieve insightful feedback based on your responses.
 
 This website was created during HawkHacks 2024.
 
